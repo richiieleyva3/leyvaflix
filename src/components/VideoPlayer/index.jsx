@@ -180,6 +180,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
         ref={videoRef}
         src={url}
         height={height}
+        autoPlay={autoplay}
         width={width}
         onClick={togglePlay}
         onVolumeChange={handleVideoMute}
