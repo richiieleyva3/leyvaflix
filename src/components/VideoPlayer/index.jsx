@@ -204,7 +204,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
       />
       }
     </div>
-    <ReproducirEnYouTube videoId="-Ou5c3A225k" ver={isFullScreen} />
+    <ReproducirEnYouTube videoId="-Ou5c3A225k" />
     </>
   );
 };

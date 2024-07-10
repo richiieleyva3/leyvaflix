@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 const Div = styled.div`
     cursor: pointer;
     position: absolute;
-    display: ${props => props.display};
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
@@ -38,25 +38,14 @@ const Div = styled.div`
     }
 `;
 
-const ReproducirEnYouTube = ({ videoId = '-Ou5c3A225k', ver = false }) => {
-    const [display, setDisplay] = useState('none');
-
-    // useEffect para cambiar el estado de display en funcion de ver
-    useEffect(() => {
-        if (ver) {
-            setDisplay('flex');
-        } else {
-            setDisplay('none');
-        }
-    }, [ver]);
-
+const ReproducirEnYouTube = ({ videoId = '-Ou5c3A225k'}) => {
 
     const abrirEnYoutube = () => {
         window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
     }
 
     return (
-        <Div onClick={abrirEnYoutube} display={display} >
+        <Div onClick={abrirEnYoutube} >
             <IoLogoYoutube /> <div className="texto-reproducirEnYouTube">Ver en YouTube</div>
         </Div>
     );
