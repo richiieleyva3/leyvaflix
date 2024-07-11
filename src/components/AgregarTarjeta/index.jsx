@@ -165,7 +165,7 @@ const fetchAllVideos = async () => {
         <H1>Nuevo Video</H1>
         <P>Complete el formulario para crear una nueva tarjeta de video</P>
         <Form>
-          <CampoText label="Título" value={titulo} onChange={setTitulo} mensajeFormato="El título debe contener por lo menos 3 caracteres alfanumericos" mensajeError="El título es obligatorio" pattern="^(?=.*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9])[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 #!¡,.-¿?!¡#]{3,}$" required />
+          <CampoText label="Título" value={titulo} onChange={setTitulo} mensajeFormato="El título debe contener por lo menos 3 caracteres alfanumericos" mensajeError="El título es obligatorio" pattern="^(?=.*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9])[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 #!¡,.\-¿?!¡#]{3,}$" required />
           <CampoSelect label="Categoría" options={opciones} value={categoria} onChange={setCategoria} required /> 
           <CampoText label="Imagen" value={imagen} onChange={setImagen} mensajeFormato="La imagen debe contener una url valida" mensajeError="La imagen es obligatorio"  pattern="^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$" required />
           <CampoText label="Video" value={video} onChange={setVideo} mensajeFormato="El video debe contener una url valida" mensajeError="El video es obligatorio"  pattern="^((http|https)://)?[a-zA-Z0-9@:%._+~#?&//=]{2,}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%._+~#?&//=]*)$" required />
