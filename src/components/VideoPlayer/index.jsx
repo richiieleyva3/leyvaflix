@@ -4,17 +4,17 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import VideoControles from "../VideoControles";
-import styled from "styled-components";
 import BotonMute from "../BotonMute";
 import BotonFullScreen from "../BotonFullScreen";
 import ReproducirEnYouTube from "../ReproducirEnYouTube";
+import ModalBienvenida from "../ModalBienvenida";
 
-const VideoPlayer = ({url, height, width, autoplay}) => {
+const VideoPlayer = ({url, height, width}) => {
 
     const videoRef = useRef(null);
     const contenedorRef = useRef(null);
     const botonMuteRef = useRef(null);
-    var [playing, setPlaying] = useState(autoplay);
+    var [playing, setPlaying] = useState(false);
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1);
@@ -24,6 +24,10 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
     const [isHover, setIsHover] = useState(false);
     const [isMoving, setIsMoving] = useState(false);
     const [showControls, setShowControls] = useState(true);
+    const [isModalBienvenidaOpen, setIsModaBienvenidalOpen] = useState(() => {
+        const storedChoice = sessionStorage.getItem('modalChoice');
+        return storedChoice === null;
+      });
 
     useEffect(() => {
         let timeout;
@@ -36,9 +40,6 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
         const handleMouseMove = () => setIsMoving(true);
         video.addEventListener("timeupdate", handleTimeUpdate);
         video.addEventListener("durationchange", handleDurationChange);
-        video.play().catch(error => {
-            console.error("Error al reproducir el video al iniciar la página, inicielo manualmente:", error);
-          });
         contenedor.addEventListener("mouseenter", handleMouseEnter);
         contenedor.addEventListener("mouseleave", handleMouseLeave);
         contenedor.addEventListener("mousemove", handleMouseMove);
@@ -52,7 +53,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
         /////////// Inicio: Observador 
         const observer = new IntersectionObserver(
             ([entry]) => {
-              if (contenedor) {
+              if (contenedor && playing) {
                 if (entry.isIntersecting) {
                   video.play();
                   playing = true;
@@ -81,7 +82,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
             if (contenedor.current) {
                 observer.unobserve(contenedor);
               }
-            /////////// Fin: Observador 
+            /////////// Fin: Observador
         };
     }, []);
 
@@ -98,10 +99,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
 
     const toogleAudio = useCallback(() => {
         const video = videoRef.current;
-        //const newVolume = video.volume === 0 ? 1 : 0;
         video.muted = !video.muted;
-        //video.volume = newVolume;
-        //setVolume(newVolume);
         setIsMuted(video.muted);
     }, [videoRef, isMuted]);
 
@@ -151,28 +149,27 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
     }, []);
 
     useEffect(() => {
-        /*
-        if(!playing)
-        {
-            setShowControls(false);
-        }
-        else{
-            setShowControls(true);
-            if(isHover || !isMoving) {
-                setShowControls(true);
-            } else {
-                const timeout = setTimeout(() => {
-                    setShowControls(false);
-                }, 3000);
-                return () => clearTimeout(timeout);
-            }
-        }
-            */
         setShowControls(playing && (isHover || !isMoving));
     }, [playing, isHover, isMoving]);
 
     const handleVideoMute = () => {
         setIsMuted(videoRef.current.muted);
+      };
+
+    const handleReproducirVideo = () => {
+        videoRef.current.play();
+        setPlaying(true);
+        setIsMuted(false);
+    };
+
+    const handlePausarVideo = () => {
+        videoRef.current.pause();
+        setPlaying(false);
+    };
+
+    const handleCloseModalBienvenida = (choice) => {
+        sessionStorage.setItem('modalChoice', choice); // Almacenar la elección
+        setIsModaBienvenidalOpen(false);
       };
 
   return (
@@ -182,7 +179,6 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
         ref={videoRef}
         src={url}
         height={height}
-        autoPlay={autoplay}
         width={width}
         onClick={togglePlay}
         onVolumeChange={handleVideoMute}
@@ -208,6 +204,12 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
       }
     </div>
     <ReproducirEnYouTube videoId="-Ou5c3A225k" />
+    <ModalBienvenida
+        isOpen={isModalBienvenidaOpen}
+        onClose={handleCloseModalBienvenida}
+        onAceptar={handleReproducirVideo}
+        onDenegar={handlePausarVideo}
+    />
     </>
   );
 };

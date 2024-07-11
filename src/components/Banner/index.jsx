@@ -179,7 +179,6 @@ const Banner = () => {
     <MaskVideo>
         <Mask>
             <VideoPlayer
-                autoplay={true}
                 height={"100%"} 
                 width={"100%"} 
                 url={Mp4Principal}
