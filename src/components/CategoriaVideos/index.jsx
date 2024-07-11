@@ -3,11 +3,12 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import TituloCategoria from '../TituloCategoria';
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoTrash } from "react-icons/io5";
 import { MdEdit, MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from "react-icons/md";
 import FlechaIzquierda from '../flechaIzquierda';
 import FlechaDerecha from '../flechaDerecha';
+import ModalConfirmacionBorrar from '../ModalConfirmacionBorrar';
 
 const DivColumn = styled.div`
 position: relative;
@@ -150,6 +151,8 @@ z-index: 5;
 
 const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, reproducir }) => {
     const divRowRef = useRef(null);
+    const [isModalConfirmacionOpen, setIsModalConfirmacionOpen] = useState(false);
+    const [idVideo, setIdVideo] = useState(null);
 
     useEffect(() => {
         const divRow = divRowRef.current;
@@ -201,9 +204,14 @@ const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, r
       const handleEliminar = (id) => {
             onEliminar(id.toString());
         };
+
+        const handleOpenModal = (id) => {
+            setIdVideo(id);
+            setIsModalConfirmacionOpen(true);
+        }
   
     return (
-        <DivColumn key={categoria}>
+    <DivColumn key={categoria}>
         <TituloCategoria color={videosPorCategoria[categoria][0].color}>
             {categoria}
         </TituloCategoria>
@@ -229,7 +237,7 @@ const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, r
                     >
                     </Video>
                     <Nav className="navVideo" color={video.color}>
-                    <BotonEliminar onClick={() => handleEliminar(video.id)}>
+                    <BotonEliminar onClick={() => handleOpenModal(video.id)}>
                         <IoTrash /> Borrar
                     </BotonEliminar>
                     <BotonEditar onClick={() => funcion(video.id)}>
@@ -243,6 +251,13 @@ const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, r
         <FlechaDerecha
             divRowRef={divRowRef}
         ></FlechaDerecha>
+        <ModalConfirmacionBorrar
+            isOpen={isModalConfirmacionOpen}
+            videoId={idVideo}
+            onClose={() => setIsModalConfirmacionOpen(false)}
+            onAceptar={handleEliminar}
+            onDenegar={() => setIsModalConfirmacionOpen(false)}
+        />
     </DivColumn>
     );
   };
