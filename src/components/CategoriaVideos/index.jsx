@@ -149,10 +149,8 @@ border: none;
 z-index: 5;
 `;
 
-const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, reproducir }) => {
+const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, reproducir, handleOpenModalConfirmarBorrar, handleEliminarPadre, isModalConfirmacionOpen, idVideo, setIsModalConfirmacionOpen }) => {
     const divRowRef = useRef(null);
-    const [isModalConfirmacionOpen, setIsModalConfirmacionOpen] = useState(false);
-    const [idVideo, setIdVideo] = useState(null);
 
     useEffect(() => {
         const divRow = divRowRef.current;
@@ -201,13 +199,8 @@ const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, r
         };
       }, []);
 
-      const handleEliminar = (id) => {
-            onEliminar(id.toString());
-        };
-
         const handleOpenModal = (id) => {
-            setIdVideo(id);
-            setIsModalConfirmacionOpen(true);
+            handleOpenModalConfirmarBorrar(id);
         }
   
     return (
@@ -249,13 +242,6 @@ const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, r
         <FlechaDerecha
             divRowRef={divRowRef}
         ></FlechaDerecha>
-        <ModalConfirmacionBorrar
-            isOpen={isModalConfirmacionOpen}
-            videoId={idVideo}
-            onClose={() => setIsModalConfirmacionOpen(false)}
-            onAceptar={handleEliminar}
-            onDenegar={() => setIsModalConfirmacionOpen(false)}
-        />
     </DivColumn>
     );
   };

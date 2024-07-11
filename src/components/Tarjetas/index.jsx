@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import BotonReinicio from '../BotonReinicio';
 import videosDefault from '../../assets/videos/videos';
 import ReproductorModal from '../ReproductorModal';
+import ModalConfirmacionBorrar from '../ModalConfirmacionBorrar';
 
 // Función para mostrar un mensaje de no se encontro el id del video
 const showToastNoId = (id) => {
@@ -93,6 +94,8 @@ const Tarjetas = () => {
     const [opciones, setOpcionesVideos] = useState([]);
     const [initialValues, setInitialValues] = useState([]);
     let [videos, setVideos] = useState([]);
+    const [isModalConfirmacionOpen, setIsModalConfirmacionOpen] = useState(false);
+    const [idVideo, setIdVideo] = useState(null);
     
     const handleOpenModal = (id) => {
         fetchVideo(id);
@@ -251,16 +254,7 @@ const guardarVideo = async (dataRow) => {
           ));
         }
 
-        await Promise.all(videosDefault.map(video => guardarVideo(video)));
-    
-        // Sube los nuevos videos uno por uno con espera de 1 segundo
-        /*
-        for (const video of videosDefault) { // Usamos un bucle for...of en lugar de map
-          await guardarVideo(video);
-          await new Promise(resolve => setTimeout(resolve, 1000)); // Espera 1 segundo
-        }
-          */
-    
+        await Promise.all(videosDefault.map(video => guardarVideo(video)));    
         showToastExitoDefault();
         fetchAllVideos(); 
       } catch (error) {
@@ -268,6 +262,14 @@ const guardarVideo = async (dataRow) => {
       }
     };
     
+    const handleOpenModalConfirmarBorrar = (id) => {
+      setIdVideo(id);
+      setIsModalConfirmacionOpen(true);
+  }
+
+  const handleEliminar = (id) => {
+    handleEliminarTarjeta(id);
+};
 
   return (
     <>
@@ -276,11 +278,15 @@ const guardarVideo = async (dataRow) => {
             Object.keys(videosPorCategoria).map(categoria => (
                 <CategoriaVideos
                   key={categoria}
-                  onEliminar={handleEliminarTarjeta}
+                  //onEliminar={handleEliminarTarjeta}
                   funcion={handleOpenModal}
                   reproducir={handleOpenReproductorModal}
                   categoria={categoria}
-                  videosPorCategoria={videosPorCategoria} />
+                  videosPorCategoria={videosPorCategoria}
+                  handleOpenModalConfirmarBorrar={handleOpenModalConfirmarBorrar}
+                  isModalConfirmacionOpen={isModalConfirmacionOpen}
+                  idVideo={idVideo}
+                />
             ))
         }
     </Contenedor>
@@ -298,6 +304,13 @@ const guardarVideo = async (dataRow) => {
     />
     <ToastContainer />
     <BotonReinicio Reiniciar={cargarVideos} />
+    <ModalConfirmacionBorrar
+            isOpen={isModalConfirmacionOpen}
+            videoId={idVideo}
+            onClose={() => setIsModalConfirmacionOpen(false)}
+            onAceptar={() => handleEliminar(idVideo)}
+            onDenegar={() => setIsModalConfirmacionOpen(false)}
+        />
     </>
   );
 }

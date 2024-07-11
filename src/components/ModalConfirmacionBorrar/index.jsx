@@ -13,7 +13,7 @@ background-color: rgba(255, 255, 255, 0.888);
 display: flex;
 justify-content: center;
 align-items: center;
-z-index: 9998;
+z-index: 99998;
 `;
 
 const ModalContent = styled.div`
@@ -30,7 +30,7 @@ width: 100vw;
 height: fit-content;
 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.67);
 max-width: 600px;
-z-index: 9999;
+z-index: 99999;
 gap: 20px;
 `;
 
