@@ -55,7 +55,14 @@ const H1 = styled.h1`
     text-transform: uppercase;
 `;
 
-const ReproductorModal = ({ isOpen, onClose, titulo, url = '' }) => {
+const P = styled.p`
+    font-size: 1.2rem;
+    color: #fff;
+    font-family: "Bebas Neue", sans-serif;
+    text-transform: uppercase;
+`;
+
+const ReproductorModal = ({ isOpen, onClose, titulo, descripcion, url = '' }) => {
   const [urlID, setUrlID] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
 
@@ -78,6 +85,7 @@ if (!isOpen) return null;
     <>
       <ModalContent>
         <H1>{titulo}</H1>
+        <P>{descripcion}</P>
         <Div>
         <iframe width="100%" height="100%"
         src={videoUrl}

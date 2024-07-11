@@ -284,6 +284,7 @@ const guardarVideo = async (dataRow) => {
       isOpen={isReproductorModalOpen}
       onClose={handleCloseReproductorModal}
       titulo={initialValues.titulo}
+      descripcion={initialValues.descripcion}
       url={initialValues.video} />
     <EditarTarjeta
         isOpen={isModalOpen}
