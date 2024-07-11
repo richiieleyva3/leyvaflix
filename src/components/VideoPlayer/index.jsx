@@ -16,7 +16,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
     const botonMuteRef = useRef(null);
     var [playing, setPlaying] = useState(autoplay);
     const [volume, setVolume] = useState(1);
-    const [isMuted, setIsMuted] = useState(true);
+    const [isMuted, setIsMuted] = useState(false);
     const [playbackRate, setPlaybackRate] = useState(1);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -36,7 +36,9 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
         const handleMouseMove = () => setIsMoving(true);
         video.addEventListener("timeupdate", handleTimeUpdate);
         video.addEventListener("durationchange", handleDurationChange);
-        video.play();
+        video.play().catch(error => {
+            console.error("Error al reproducir el video al iniciar la página, inicielo manualmente:", error);
+          });
         contenedor.addEventListener("mouseenter", handleMouseEnter);
         contenedor.addEventListener("mouseleave", handleMouseLeave);
         contenedor.addEventListener("mousemove", handleMouseMove);
