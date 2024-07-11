@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -116,6 +117,8 @@ showToastLimpiado();
 
 if (!isOpen) return null;
 
+const patronCampoDeTexto = /^(?=.*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9])[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\s'\".,¿?+#:;)(%@*$]{3,}$/;
+
   return (
     <>
       <ModalContent>
@@ -125,7 +128,7 @@ if (!isOpen) return null;
           <CampoSelect label="Categoría" options={categorias} value={categoria} onChange={setCategoria} required /> 
           <CampoText label="Imagen" value={imagen} onChange={setImagen} mensajeFormato="La imagen debe contener una url valida" mensajeError="La imagen es obligatorio"  pattern="^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$" required />
           <CampoText label="Video" value={video} onChange={setVideo} mensajeFormato="El video debe contener una url valida" mensajeError="El video es obligatorio"  pattern="^((http|https)://)?[a-zA-Z0-9@:%._+~#?&//=]{2,}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%._+~#?&//=]*)$" required />
-          <CampoTextArea label="Descripción" value={descripcion} onChange={setDescripcion} mensajeFormato="La descripción debe ser más larga" mensajeError="La descripción es obligatoria"  pattern="^(?=.*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9])[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9 .,¿?]{3,}$" required />
+          <CampoTextArea label="Descripción" value={descripcion} onChange={setDescripcion} mensajeFormato="La descripción debe ser más larga o tiene caracteres no validos" mensajeError="La descripción es obligatoria"  pattern={patronCampoDeTexto} required />
           <ContenedorBotones>
             <CampoBoton color="#E18433" label="Guardar" onClick={handleGuardar} />
             <CampoBoton color="#fff" type="reset" label="Limpiar" onClick={handleLimpiar} />
