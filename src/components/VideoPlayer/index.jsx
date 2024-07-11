@@ -16,7 +16,7 @@ const VideoPlayer = ({url, height, width, autoplay}) => {
     const botonMuteRef = useRef(null);
     var [playing, setPlaying] = useState(autoplay);
     const [volume, setVolume] = useState(1);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
     const [playbackRate, setPlaybackRate] = useState(1);
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [progress, setProgress] = useState(0);
