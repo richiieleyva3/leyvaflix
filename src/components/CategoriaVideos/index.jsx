@@ -99,7 +99,7 @@ transition: all .5s ease;
 const Video = styled.div`
 cursor: pointer;
 background-image: url(${props => props.$fondo});
-background-size: cover;
+background-size: 100% 100%;
 background-position: center;
 border-radius: 5px;
 height: 100%;
