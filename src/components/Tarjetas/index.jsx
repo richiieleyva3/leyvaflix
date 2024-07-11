@@ -107,16 +107,20 @@ const Tarjetas = () => {
     const handleCloseReproductorModal = () => setIsReproductorModalOpen(false);
 
 
-    const handleGuardarTarjeta = (id, data) => {
+    const handleGuardarTarjeta = async (id, data) => {
       // Si alguno de los campos está vacío, no se guarda el video y lanzamos un alert
       if (!data.titulo || !data.categoria || !data.fondo || !data.url || !data.descripcion) {
         showToastError();
         return;
       }
-      //setTarjetaData(data);
-      editarVideo(id, data);
-      handleCloseModal();
-      handleActualizarTarjeta();
+      try {
+        await editarVideo(id, data);
+        showToastExito();
+        fetchAllVideos();
+        handleCloseModal();
+        } catch (error) {
+        showToastNoGuardado();
+        }
     };
 
     const handleEliminarTarjeta = (id) => {

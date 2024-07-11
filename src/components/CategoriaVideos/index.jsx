@@ -222,11 +222,9 @@ const CategoriaVideos = ({ categoria, videosPorCategoria, funcion, onEliminar, r
         {
             videosPorCategoria[categoria].map((video, index) => (
                 <ContenedorVideoIndivual
-                    //href={video.url}
                     target={"_blank"}
                     key={video.id}
                     $color={video.color}
-                    //index={(index === leftIndex) ? '20px' : ((index === rightIndex) ? '-40px' : '0')}
                     className={`video`}
                 >
                     <Video
