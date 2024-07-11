@@ -117,7 +117,7 @@ showToastLimpiado();
 
 if (!isOpen) return null;
 
-const patronCampoDeTexto = /^(?=.*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9])[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\s'\".,¿?+#:;)(%@*$]{3,}$/;
+const patronCampoDeTexto = /^(?=.*[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9])[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\s'\".,¿?+#:;!¡)(%@*$]{3,}$/;
 
   return (
     <>
